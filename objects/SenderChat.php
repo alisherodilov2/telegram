@@ -1,10 +1,5 @@
 <?php
-/*
- *  Jamshidbek Akhlidinov
- *   20 - 4 2024 20:40:41
- *   https://ustadev.uz
- *   https://github.com/JamshidbekAkhlidinov
- */
+
 
 namespace ustadev\telegram\objects;
 
