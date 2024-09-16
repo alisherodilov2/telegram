@@ -17,17 +17,22 @@ class Keyboard
     public $is_persistent = false;
     public $resize_keyboard = true;
     public $one_time_keyboard = false;
-    public $input_field_placeholder = "placeholder";
+    public $input_field_placeholder = 'placeholder';
 
     public $selective = true;
 
-
-    public function addRow()
+    public function addRow($array)
     {
         if (isset($this->keyboard[$this->row])) {
-            $this->row++;
+            ++$this->row;
         }
-        $this->keyboard[$this->row] = [];
+        foreach ($array as $key => $value) {
+            $this->keyboard[$this->row][] = [
+                'text' => $key,
+                'callback_data' => $value,
+            ];
+        }
+
         return $this;
     }
 
@@ -42,6 +47,7 @@ class Keyboard
         }
 
         $this->keyboard[$this->row][] = ['text' => $text];
+
         return $this;
     }
 
@@ -55,6 +61,7 @@ class Keyboard
             return $this;
         }
         $this->keyboard[$this->row][] = ['text' => $text, 'callback_data' => $callback];
+
         return $this;
     }
 
@@ -69,6 +76,7 @@ class Keyboard
         }
 
         $this->keyboard[$this->row][] = ['text' => $text, 'url' => $url];
+
         return $this;
     }
 
@@ -83,6 +91,7 @@ class Keyboard
         }
 
         $this->keyboard[$this->row][] = ['text' => $text, 'switch_inline_query_current_chat' => $switch_inline_query_current_chat];
+
         return $this;
     }
 
@@ -97,12 +106,14 @@ class Keyboard
         }
 
         $this->keyboard[$this->row][] = ['text' => $text, 'switch_inline_query' => $switch_inline_query];
+
         return $this;
     }
 
     public function addWebApp($text, $url)
     {
         $this->keyboard[$this->row][] = ['text' => $text, 'web_app' => ['url' => $url]];
+
         return $this;
     }
 
@@ -116,6 +127,7 @@ class Keyboard
             return $this;
         }
         $this->keyboard[$this->row][] = ['text' => $text, 'request_contact' => true];
+
         return $this;
     }
 
@@ -129,9 +141,9 @@ class Keyboard
             return $this;
         }
         $this->keyboard[$this->row][] = ['text' => $text, 'request_location' => true];
+
         return $this;
     }
-
 
     public function addRequestPoll($text, $type = 'quiz')
     {
@@ -143,14 +155,14 @@ class Keyboard
             return $this;
         }
         $this->keyboard[$this->row][] = ['text' => $text, 'request_poll' => ['type' => $type]];
+
         return $this;
     }
-
 
     private function initInlineKeyboard()
     {
         return json_encode([
-            'inline_keyboard' => $this->keyboard
+            'inline_keyboard' => $this->keyboard,
         ]);
     }
 
@@ -171,9 +183,9 @@ class Keyboard
         if (empty($this->keyboard)) {
             $this->buttonType = self::REMOVE;
         }
+
         return $this;
     }
-
 
     public function init()
     {
@@ -187,5 +199,4 @@ class Keyboard
             return $this->initCustomKeyboard();
         }
     }
-
 }
